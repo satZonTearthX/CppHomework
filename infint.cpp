@@ -38,7 +38,11 @@ Infint::Infint(){
 Infint::Infint(int num){
 	int i,numTem,num2=num;
 	this->valueshow="";
-	if (num2 == 0) this->plus = 0;
+	if (num2 == 0) {
+		this->plus = 0;
+		this->valueshow = "0";//init it as "" prevent from no expression
+	
+	}
 	else this->plus = num2 / (abs(num2));
 	num2 = abs(num2);
 	numTem=num2;
@@ -57,6 +61,7 @@ Infint::Infint(int num){
 	}
 	if (plus < 0) this->valueshow = '-' + this->valueshow;
 	
+	
 }
 
 Infint::Infint(std::string nums){
@@ -74,7 +79,7 @@ Infint::Infint(std::string nums){
 	else
 		this->plus = 1;
 	
-	while (nums2.at(0) == '0') 
+	while (nums2.at(0) == '0' && nums2.length()>1)
 		nums2.erase(0, 1);//prevent the situation like 00003233
 	
 	this->valueshow=nums2;
@@ -229,7 +234,7 @@ Infint Infint::operator*(Infint& n) {
 		return res;
 	}
 	else {
-		//res.plus = 1;//treat it as a postive number
+		res.plus = 1;//treat it as a postive number
 		if (bigger(n, *this)) { //bigger as the first element so it runs faster
 			inf1 = n;
 			inf2 = *this;
@@ -246,23 +251,17 @@ Infint Infint::operator*(Infint& n) {
 			}
 			else {
 				digit.plus = 1;
-				digit.valueshow = "";
-				for (int k = 0; k < i; k++)
-				{
-					digit.value[k] = 0;
-					digit.valueshow.insert(0, 1, '0');
-				}
+				for (int k = 0; k < i; k++) digit.value[k] = 0;
 				add = 0;//init
 				digit.power = inf1.power + i;//call operator+ need the power (how many digits in the number)
 				for (j = 0; j < inf1.power; j++) {
 					digit.value[i + j] = (inf1.value[j] * inf2.value[i] + add) % 10;
 					add = (inf1.value[j] * inf2.value[i] + add) / 10;
-					digit.valueshow = (char)(digit.value[i] + 48) + digit.valueshow;
 				}
 				if (add > 0) {
 					digit.power++;
 					digit.value[digit.power - 1] = add;
-					digit.valueshow = (char)(digit.value[digit.power - 1] + 48) + digit.valueshow; //necessary not compatible in the plus code
+					//digit.valueshow = (char)(inf.value[maxPower - 1] + 48) + inf.valueshow; unnecessary. we don't need the expression but the value
 				}
 			}
 			res = res.operator+(digit);
