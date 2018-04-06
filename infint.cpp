@@ -181,7 +181,10 @@ Infint Infint::operator-(Infint& n) {
 	if (this->plus == 0 || n.plus == 0)
 	{
 		if (n.plus == 0) return *this;
-		else return minusnum(n);
+		else {
+			res= minusnum(n);
+			return minusnum(n);
+		}
 	}
 	else if (this->plus*n.plus < 0) {
 		inf2 = minusnum(n);
