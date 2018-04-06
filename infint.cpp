@@ -233,5 +233,11 @@ Infint Infint::operator--(int) {
 	return res;
 }
 	
+void Infint:: operator+=(Infint& n) {
+	*this = this->operator+(n);
+}
 
+void Infint:: operator-=(Infint& n) {
+	*this = this->operator-(n);
+}
 
