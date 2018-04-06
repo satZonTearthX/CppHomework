@@ -62,7 +62,7 @@ Infint::Infint(int num){
 Infint::Infint(std::string nums){
 	int i,j=0;
 	string nums2=nums;
-	this->valueshow=nums2;
+	
 	if (nums2.at(0) == '-') {
 		this->plus = -1;
 		nums2.erase(0, 1);
@@ -74,6 +74,13 @@ Infint::Infint(std::string nums){
 	else
 		this->plus = 1;
 	
+	while (nums2.at(0) == '0') 
+		nums2.erase(0, 1);//prevent the situation like 00003233
+	
+	this->valueshow=nums2;
+	if (this->plus == -1) this->valueshow.insert(0, 1, '-');
+
+
 	for (i = 0; i < MAXPOWER; i++) this->value[i] = 0;//Initialize for some g++ version debug for the minus part
 	
 	this->power=nums2.length();	
@@ -124,6 +131,9 @@ Infint Infint::operator+(Infint& n)
 				else maxPower = n.power;
 
 				inf.power = maxPower;
+				
+				add = 0;//init
+				
 				for (i = 0; i < maxPower; i++) {
 
 					inf.value[i] = (this->value[i] + n.value[i] + add) % 10;
@@ -153,7 +163,7 @@ Infint Infint::operator+(Infint& n)
 Infint Infint::operator-(Infint& n) {
 	Infint inf1;//save the first number
 	Infint inf2,res;
-	int bor,i,j;//borrow from the bigger one
+	int i,j;
 	res.valueshow = "";
 	if (this->plus == 0 || n.plus == 0)
 	{
@@ -197,9 +207,10 @@ Infint Infint::operator-(Infint& n) {
 		while (res.value[res.power - 1] == 0 && res.power>1) res.power--;//get actually how many digits in the result
 		/*if (res.value[inf1.power - 1] == 0) res.power--; not the same way?*/
 		
-		res.valueshow=res.valueshow.substr(res.valueshow.length() - res.power);//cut the string to avoid the 0 at the first pos of the number
-		
-		if (res.value[0] == 0 && res.power == 1) res.plus = 0;//change the sign if the result is 0
+		//cut the string to avoid the 0 at the first pos of the number
+		res.valueshow=res.valueshow.substr(res.valueshow.length() - res.power);
+		//change the sign if the result is 0
+		if (res.value[0] == 0 && res.power == 1) res.plus = 0;
 
 		if (res.plus==-1) res.valueshow.insert(0, 1, '-');
 
@@ -207,6 +218,66 @@ Infint Infint::operator-(Infint& n) {
 	}
 }
 
+Infint Infint::operator*(Infint& n) {
+	Infint inf1;//save the first number
+	Infint inf2, res,digit;// digit stores the result the number times different postion of digits
+	int i, j,add;//add for result over 10
+	res.valueshow = "";
+	if (this->plus == 0 || n.plus == 0)
+	{
+		res.valueshow="0";
+		return res;
+	}
+	else {
+		//res.plus = 1;//treat it as a postive number
+		if (bigger(n, *this)) { //bigger as the first element so it runs faster
+			inf1 = n;
+			inf2 = *this;
+		}
+		else
+		{
+			inf1 = *this;
+			inf2 = n;
+		}
+		for (i = 0; i < inf2.power; i++) {
+			if (inf2.value[i] == 0)
+			{
+				digit.plus = 0;//tell the operator+ not to calculate again
+			}
+			else {
+				digit.plus = 1;
+				digit.valueshow = "";
+				for (int k = 0; k < i; k++)
+				{
+					digit.value[k] = 0;
+					digit.valueshow.insert(0, 1, '0');
+				}
+				add = 0;//init
+				digit.power = inf1.power + i;//call operator+ need the power (how many digits in the number)
+				for (j = 0; j < inf1.power; j++) {
+					digit.value[i + j] = (inf1.value[j] * inf2.value[i] + add) % 10;
+					add = (inf1.value[j] * inf2.value[i] + add) / 10;
+					digit.valueshow = (char)(digit.value[i] + 48) + digit.valueshow;
+				}
+				if (add > 0) {
+					digit.power++;
+					digit.value[digit.power - 1] = add;
+					digit.valueshow = (char)(digit.value[digit.power - 1] + 48) + digit.valueshow; //necessary not compatible in the plus code
+				}
+			}
+			res = res.operator+(digit);
+		}//end of the calculation
+
+		if (this->plus*n.plus < 0) {
+			res.plus = -1;
+			res.valueshow.insert(0, 1, '-');
+		}
+		else res.plus = 1;
+	
+
+		return res;
+	}
+}
 Infint& Infint::operator++() {
 	Infint inf = Infint(1);
 	*this=this->operator+(inf);
@@ -233,5 +304,14 @@ Infint Infint::operator--(int) {
 	return res;
 }
 	
+void Infint:: operator+=(Infint& n) {
+	*this = this->operator+(n);
+}
 
+void Infint:: operator-=(Infint& n) {
+	*this = this->operator-(n);
+}
 
+void Infint:: operator*=(Infint& n) {
+	*this = this->operator*(n);
+}
