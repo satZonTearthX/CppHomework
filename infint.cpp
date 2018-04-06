@@ -123,6 +123,7 @@ Infint Infint::operator+(Infint& n)
 	else
 	{
 		Infint inf = Infint();
+		Infint tem;
 		inf.valueshow = "";//the Infint() makes it "0"
 			if ((this->plus * n.plus > 0)) {
 				
@@ -157,9 +158,16 @@ Infint Infint::operator+(Infint& n)
 		}
 			else
 			{
-				if (this->plus == -1) inf = n.operator-(minusnum(*this));
+				if (this->plus == -1)
+				{
+					tem = minusnum(*this);
+					inf = n.operator-(tem);
+				}
 				else
-					inf = this->operator-(minusnum(n));
+				{
+					tem = minusnum(n);
+					inf = this->operator-(tem);
+				}
 			}
 		return inf;
 	}
