@@ -23,9 +23,9 @@ public:
 	Infint operator++(int);
 	Infint& operator--();
 	Infint operator--(int);
-	void operator+=(Infint& n);
-	void operator-=(Infint& n);
-	void operator*=(Infint& n);
+	void operator+=(const Infint& n);
+	void operator-=(const Infint& n);
+	void operator*=(const Infint& n);
 	void operator=(const Infint& b);
 };
 Infint minusnum(Infint& n);
