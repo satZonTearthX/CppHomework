@@ -16,17 +16,40 @@ public:
 	Infint();
 	Infint(int num);
 	Infint(std::string nums);
+	
 	Infint operator+(Infint& n);
+	Infint operator+(int num);
+	Infint operator+(string& num);
+	
 	Infint operator-(Infint& n);
+	Infint operator-(int num);
+	Infint operator-(string& num);
+	
 	Infint operator*(Infint& n);
+	Infint operator*(int num);
+	Infint operator*(string& num);
+
+	
 	Infint& operator++();
 	Infint operator++(int);
+	
 	Infint& operator--();
 	Infint operator--(int);
 	void operator+=(const Infint& n);
+	void operator+=(const int num);
+	void operator+=(const string& num);
+	
 	void operator-=(const Infint& n);
+	void operator-=(const int num);
+	void operator-=(const string& num);
+	
 	void operator*=(const Infint& n);
+	void operator*=(const int num);
+	void operator*=(const string& num);
+	
 	void operator=(const Infint& b);
+	void operator=(const int num);
+	void operator=(const string& num);
 };
 Infint minusnum(Infint& n);
 bool bigger(Infint&n1, Infint&n2);
