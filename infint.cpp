@@ -124,7 +124,7 @@ void Infint::operator=(const int num)
 		this->value[i] = b.value[i];
 }
 
-void Infint::operator=(const string& num)
+void Infint::operator=(const string num)
 {
 	Infint b = Infint(num);
 	int i;
@@ -257,7 +257,7 @@ Infint Infint::operator+(int num)
 	}
 	return inf;
 }
-Infint Infint::operator+(string& num)
+Infint Infint::operator+(string num)
 {
 	Infint n = Infint(num);
 	Infint inf = Infint();
@@ -435,7 +435,7 @@ Infint Infint::operator-(int num) {
 	return res;
 }
 
-Infint Infint::operator-(string& num) {
+Infint Infint::operator-(string num) {
 	Infint n = Infint(num);
 	Infint inf1;//save the first number
 	Infint inf2, res;
@@ -605,7 +605,7 @@ Infint Infint::operator*(int num) {
 	return res;
 }
 
-Infint Infint::operator*(string& num) {
+Infint Infint::operator*(string num) {
 	Infint n = Infint(num);
 	Infint inf1;//save the first number
 	Infint inf2, res, digit;// digit stores the result the number times different postion of digits
@@ -696,7 +696,7 @@ void Infint:: operator+=(const int num) {
 	*this = this->operator+(inf);
 }
 
-void Infint:: operator+=(const string& num) {
+void Infint:: operator+=(const string num) {
 	Infint inf = Infint(num);
 	*this = this->operator+(inf);
 }
@@ -710,7 +710,7 @@ void Infint:: operator-=(const int num) {
 	*this = this->operator-(inf);
 }
 
-void Infint:: operator-=(const string& num) {
+void Infint:: operator-=(const string num) {
 	Infint inf = Infint(num);
 	*this = this->operator-(inf);
 }
@@ -725,7 +725,7 @@ void Infint:: operator*=(const int num) {
 	*this = this->operator*(inf);
 }
 
-void Infint:: operator*=(const string& num) {
+void Infint:: operator*=(const string num) {
 	Infint inf = Infint(num);
 	*this = this->operator*(inf);
 }
