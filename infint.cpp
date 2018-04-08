@@ -115,15 +115,15 @@ void Infint::operator=(const Infint& b)
 
 Infint Infint::operator+(Infint& n)
 	{
+	Infint inf = Infint();
+	Infint tem;
 	if (this->plus == 0 || n.plus == 0) 
 		{
-		if (this->plus == 0) return n;
-			else return *this;//no need to calculate write the number that is not zero
+		if (this->plus == 0) inf=n;
+			else inf=*this;//no need to calculate write the number that is not zero
 	    }
 	else
 	{
-		Infint inf = Infint();
-		Infint tem;
 		inf.valueshow = "";//the Infint() makes it "0"
 			if ((this->plus * n.plus > 0)) {
 				
@@ -169,8 +169,9 @@ Infint Infint::operator+(Infint& n)
 					inf = this->operator-(tem);
 				}
 			}
-		return inf;
+		
 	}
+	return inf;
 	}
 
 Infint Infint::operator-(Infint& n) {
@@ -183,13 +184,11 @@ Infint Infint::operator-(Infint& n) {
 		if (n.plus == 0) return *this;
 		else {
 			res= minusnum(n);
-			return minusnum(n);
 		}
 	}
 	else if (this->plus*n.plus < 0) {
 		inf2 = minusnum(n);
 		res = this->operator+(inf2);
-		return res;
 	}
 	else if (this->plus*n.plus > 0) {
 		if (bigger(n, *this)) { //n>=this calculate  if (n==this) delete the sign of(+/-)later
@@ -229,9 +228,8 @@ Infint Infint::operator-(Infint& n) {
 		if (res.value[0] == 0 && res.power == 1) res.plus = 0;
 
 		if (res.plus==-1) res.valueshow.insert(0, 1, '-');
-
-		return res;
 	}
+	return res;
 }
 
 Infint Infint::operator*(Infint& n) {
@@ -242,7 +240,6 @@ Infint Infint::operator*(Infint& n) {
 	if (this->plus == 0 || n.plus == 0)
 	{
 		res.valueshow="0";
-		return res;
 	}
 	else {
 		res.plus = 1;//treat it as a postive number
@@ -285,8 +282,9 @@ Infint Infint::operator*(Infint& n) {
 		else res.plus = 1;
 	
 
-		return res;
+		
 	}
+	return res;
 }
 Infint& Infint::operator++() {
 	Infint inf = Infint(1);
@@ -314,14 +312,17 @@ Infint Infint::operator--(int) {
 	return res;
 }
 	
-void Infint:: operator+=(Infint& n) {
-	*this = this->operator+(n);
+void Infint:: operator+=(const Infint& n) {
+	Infint inf = n;
+	*this = this->operator+(inf);
 }
 
-void Infint:: operator-=(Infint& n) {
-	*this = this->operator-(n);
+void Infint:: operator-=(const Infint& n) {
+	Infint inf = n;
+	*this = this->operator-(inf);
 }
 
-void Infint:: operator*=(Infint& n) {
-	*this = this->operator*(n);
+void Infint:: operator*=(const Infint& n) {
+	Infint inf = n;
+	*this = this->operator*(inf);
 }
